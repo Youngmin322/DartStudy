@@ -1,3 +1,31 @@
 void main() {
-  print("디버깅");
+  int number = 35;
+  double price = 2.9929;
+  bool isValid = true;
+  String message = "Hello Dart!";
+
+  print(number);
+  print(price);
+  print(isValid);
+  print(message);
+
+  // 상수 선언 및 초기화
+  const int dayInWeek = 7;
+  final DateTime now = DateTime.now();
+
+  int? nullableNumber;
+  print(nullableNumber);
+
+  nullableNumber = 42;
+  print(nullableNumber);
+
+  var varName = 'John'; // 문자열로 추론
+
+  varName = 'David';
+
+  // 문자열로 추론된 var는 다른 타입을 가질 수 없다. ex) varName = 10; 불가능
+
+  var a = 1; // int로 추론 됨
+  print(varName);
+  print(a);
 }
