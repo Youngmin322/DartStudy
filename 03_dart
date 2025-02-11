@@ -24,8 +24,13 @@ void main() async {
   int value = 5;
 
   // 화살표 함수
-  int ex1Squared(num1) => num1 * num1;
+  print('----------------1');
+  int ex1Squared(num1) => num1 * num1; // 결과: Closure: (dynamic) => int
+  print(ex1Squared);
   int ex1Cubed(num1) => num1 * num1 * num1;
+  print(ex1Cubed);
+  print('----------------2');
+
 
   // 중괄호 일반 함수
   int ex2Squared(num2) {

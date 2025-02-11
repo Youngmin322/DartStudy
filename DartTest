@@ -1,0 +1,7 @@
+void main() async {
+  getCurrentDateTime();
+}
+
+void getCurrentDateTime() {
+  var currentTime = DateTime.now(); 
+}
