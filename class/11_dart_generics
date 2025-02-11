@@ -1,0 +1,43 @@
+class DataStorage<T> {
+  // 제네릭 타입의 리스트를 선언
+  List<T> _items = [];
+
+  // 리스트에 아이템을 추가하는 메소드
+  void addItem(T item) {
+    _items.add(item);
+  }
+
+  // 리스트의 아이템을 제거
+  void removeItem(T item) {
+    _items.remove(item);
+  }
+
+  // 리스트의 아이템을 출력: null Safety를 위해 ? 사용
+  T? getItem(int index) {
+    if (index < _items.length) {
+      return _items[index];
+    }
+    return null;
+  }
+
+  // 리스트의 모든 아이템을 출력: 리스트를 복사해서 반환
+  List<T> getAllItems() => List.form(_items);
+
+  int get count => _items.length;
+
+  void clear() {
+    _items.clear();
+  }
+}
+
+void main() {
+  var stringStorage = DataStorage<String>();
+  stringStorage.addItem('Hello');
+  stringStorage.addItem('World');
+  print('Items: ${stringStorage.getAllItems}');
+
+  var intStorage = DataStorage<int>();
+  intStorage.addItem(1);
+  intStorage.addItem(2);
+  print('Items: ${intStorage.getAllItems()}');
+}

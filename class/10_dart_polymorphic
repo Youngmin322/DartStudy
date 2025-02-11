@@ -1,0 +1,9 @@
+// 복습 시간에 하기
+
+abstract class Shape {
+  double getArea();
+  double getPerimerter();
+  void draw();
+}
+
+class 
