@@ -1,0 +1,35 @@
+class DatabaseConnection {
+  static DatabaseConnection? _instance; // private static 메서드
+  final String _connectionString;
+
+  DatabaseConnection._internal(this._connectionString) {
+    print('Creating new database connection');
+  }
+
+  factory DatabaseConnection(String connectionString) {
+    _instance ??= DatabaseConnection._internal(connectionString);
+    return _instance!;
+  }
+
+  void connect() {
+    print('Connectiong to database: $_connectionString');
+  }
+
+  void disconnect() {
+    print('Disconnecting from database');
+  }
+
+  void query(String sql) {
+    print('Executing query: $sql');
+  }
+}
+
+void main() {
+  var db1 = DatabaseConnection('localhost: 5432');
+  var db2 = DatabaseConnection('localhost: 5432');
+
+  print(identical(db1, db2)); 
+  db1.connect();
+  db1.query('SELECT * FROM users');
+  db1.disconnect();
+}
