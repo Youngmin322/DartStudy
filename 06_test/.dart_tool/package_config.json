@@ -93,9 +93,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/choyoungmin/.pub-cache/hosted/pub.dev/js-0.7.1",
+      "rootUri": "file:///Users/choyoungmin/.pub-cache/hosted/pub.dev/js-0.7.2",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.7"
     },
     {
       "name": "logging",
@@ -290,8 +290,8 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-11T06:07:12.284879Z",
+  "generated": "2025-02-13T06:28:29.639448Z",
   "generator": "pub",
-  "generatorVersion": "3.6.2",
+  "generatorVersion": "3.7.0",
   "pubCache": "file:///Users/choyoungmin/.pub-cache"
 }
