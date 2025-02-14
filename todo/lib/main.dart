@@ -5,6 +5,8 @@ void main() {
 }
 
 class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +20,8 @@ class TodoApp extends StatelessWidget {
 }
 
 class TodoScreen extends StatefulWidget {
+  const TodoScreen({super.key});
+
   @override
   _TodoScreenState createState() => _TodoScreenState();
 }
@@ -25,12 +29,13 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   final List<TodoItem> _todos = [];
   final TextEditingController _controller = TextEditingController();
+  bool _showCompleted = true;
 
-  void _addTodo() {
-    final text = _controller.text;
-    if (text.isNotEmpty) {
+  void _addTodo([String? text]) {
+    final todoText = text ?? _controller.text;
+    if (todoText.isNotEmpty) {
       setState(() {
-        _todos.add(TodoItem(text: text));
+        _todos.add(TodoItem(text: todoText));
         _controller.clear();
       });
     }
@@ -48,13 +53,30 @@ class _TodoScreenState extends State<TodoScreen> {
     });
   }
 
+  void _toggleShowCompleted() {
+    setState(() {
+      _showCompleted = !_showCompleted;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo List', style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          'Todo List',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(_showCompleted ? Icons.visibility : Icons.visibility_off),
+            onPressed: _toggleShowCompleted,
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -63,11 +85,10 @@ class _TodoScreenState extends State<TodoScreen> {
               children: [
                 Expanded(
                   child: TextField(
+                    onSubmitted: _addTodo,
                     controller: _controller,
                     decoration: InputDecoration(hintText: 'Enter a task'),
                     textInputAction: TextInputAction.done,
-                    
-                    
                   ),
                 ),
                 IconButton(
@@ -82,6 +103,7 @@ class _TodoScreenState extends State<TodoScreen> {
               itemCount: _todos.length,
               itemBuilder: (context, index) {
                 final todo = _todos[index];
+                if (!_showCompleted && todo.isDone) return SizedBox.shrink();
                 return ListTile(
                   title: Text(
                     todo.text,
