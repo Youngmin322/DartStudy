@@ -16,7 +16,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
-      ),
+        // themeData의 tabBarTheme 속성을 사용하여 탭바의 색상을 변경
+        tabBarTheme: const TabBarTheme(
+          labelColor: Colors.amber,
+          indicatorColor: Colors.amber,
+        )),
       home: TabDemo(),
     );
   }
