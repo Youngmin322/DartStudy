@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,57 +23,48 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  String _data = '데이터 초기화';
+  final StreamController<String> _streamController = StreamController<String>();
 
   @override
   void initState() {
     super.initState();
     debugPrint('initState');
-    // 일반함수에서 비동기 함수를 호출할 때는 then을 사용
-    _loadData().then((value) {
-      // then 함수는 비동기 함수가 완료되면 실행됩니다.
-      debugPrint('then');
-      debugPrint('데이터 불러오기 완료');
-    });
-    debugPrint('initState 다른작업 1');
-    debugPrint('initState 다른작업 2');
-    debugPrint('initState 다른작업 3');
-    debugPrint('initState 다른작업 4');
-    debugPrint('initState 다른작업 5');
+    _startSteam();
   }
 
-  Future<void> _loadData() async {
-    debugPrint('_loadData');
-    _data = '데이터를 불러오는 중...';
-    await Future.delayed(Duration(seconds: 5));
-    debugPrint('setState');
-    _data = '데이터를 불러왔습니다.';
-    // throw Exception('데이터를 불러오는 중 에러가 발생했습니다.');
+  void _startSteam() {
+    debugPrint('_startSteam');
+    int count = 0;
+    // StreamController를 통해 Stream을 생성
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      count++;
+      _streamController.add('데이터 $count');
+      if (count == 10) {
+        timer.cancel();
+        _streamController.close();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Future 예제')),
-      body: FutureBuilder<void>(
-        future: _loadData(),
-        builder: (context, snapshot) {
-          debugPrint('FutureBuilder: ${snapshot.connectionState}');
-          if (snapshot.hasError) {
-            return Center(child: Text('데이터를 불러오는 중 에러가 발생했습니다.'));
-          }
+      appBar: AppBar(title: Text('StreamBuilder 예제')),
+      body: StreamBuilder<String>(
+        stream: _streamController.stream,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          debugPrint('StreamBuilder: ${snapshot.connectionState}');
+          // Stream이 연결되는 중
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Text(
-                '비동기 함수 실습 1: $_data (snapshot.hasData: ${snapshot.hasData})',
-              ),
-            );
+            return Center(child: CircularProgressIndicator());
+            // 스트림에 에러가 발생했을때
+          } else if (snapshot.hasError) {
+            return Center(child: Text('데이터를 불러오는 중 에러가 발생했습니다.'));
+            // 스트림에 데이터가 없을때 (데이터가 로드되는 중에도 이 상태가 될 수 있음)
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('데이터가 없습니다.'));
           }
-          return Center(
-            child: Text(
-              '비동기 함수 실습 2: $_data (snapshot.hasData: ${snapshot.hasData})',
-            ),
-          );
+          return Center(child: Text('StreamBuilder 예제 : ${snapshot.data}'));
         },
       ),
     );
