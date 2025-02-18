@@ -15,7 +15,7 @@ void main() {
     // Arrange
     final testUsername = find.byKey(const ValueKey('testUsername'));
     final testPassword = find.byKey(const ValueKey('testPassword'));
-    final testLoginButton = find.byKey(const ValueKey('testLoginButton'))
+    final testLoginButton = find.byKey(const ValueKey('testLoginButton'));
 
     // Act
     // 화면에 위젯을 그린다.
